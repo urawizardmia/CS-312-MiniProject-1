@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Whatcha Cookin?</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Shizuru&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body>
+
+  <h1>Edit Recipe</h1>
+
+  <form class="edit-form" action="/save" method="POST">
+    <input type="hidden" name="number" value="<%= number %>">
+    <label for="recipe_name">Recipe Name:</label>
+    <input type="text" name="recipe_name" value="<%= recipe.recipe_name %>" required>
+    <label for="your_name">Your Name:</label>
+    <input type="text" name="your_name" value="<%= recipe.your_name %>" required>
+    <label for="cook_time">Cook Time:</label>
+    <input type="text" name="cook_time" value="<%= recipe.cook_time %>" required>
+    <label for="serving_size">Servings:</label>
+    <input type="text" name="serving_size" value="<%= recipe.serving_size %>" required>
+
+    <label for="category">Meal Category:</label>
+    <select name="category" required>
+      <option value="breakfast" <% if (recipe.category === "breakfast") { %>selected<% } %>>Breakfast</option>
+      <option value="lunch" <% if (recipe.category === "lunch") { %>selected<% } %>>Lunch</option>
+      <option value="dinner" <% if (recipe.category === "dinner") { %>selected<% } %>>Dinner</option>
+      <option value="snack" <% if (recipe.category === "snack") { %>selected<% } %>>Snack</option>
+      <option value="dessert" <% if (recipe.category === "dessert") { %>selected<% } %>>Dessert</option>
+      <option value="drinks" <% if (recipe.category === "drinks") { %>selected<% } %>>Drinks</option>
+    </select>
+
+    <label for="ingredients">Ingredients:</label>
+    <textarea name="ingredients" required><%= recipe.ingredients %></textarea>
+    <label for="steps">Steps:</label>
+    <textarea name="steps" required><%= recipe.steps %></textarea>
+    <input type="submit" value="Save">
+  </form>
+
+</body>
+</html> 

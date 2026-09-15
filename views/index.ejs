@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Whatcha Cookin? Recipe Sharing Blog</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Shizuru&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="/styles/main.css" />
+    </head>
+
+    <body>
+        <h1>Whatcha Cookin?</h1>
+
+        <!-- takes you to the new recipe form -->
+        <form action="/new_recipe" method="GET">
+            <input type="submit" value="Share Your Recipe" />
+        </form>
+
+        <h2>Filter Recipes</h2>
+
+        <form class="filter-form" action="/filter" method="POST">
+            <select name="category">
+                <option value="all">All Recipes</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="snack">Snack</option>
+                <option value="dessert">Dessert</option>
+                <option value="drinks">Drinks</option>
+            </select>
+
+            <input type="submit" value="Filter" />
+        </form>
+
+        <!-- shows all the recipes -->
+        <% recipes.forEach((recipe, number) => { 
+            %> <% if (category === "all" || recipe.category === category) { %>
+
+                <div class="recipe-card">
+                    <h2 class="recipe-title"><%= recipe.recipe_name %></h2>
+                    <div class="recipe-info">
+                        <p><strong>By:</strong> <%= recipe.your_name %></p>
+                        <p><%= recipe.date.toDateString() %></p>
+                    </div>
+                    <div class="recipe-details">
+                        <p><strong>Category:</strong> <%= recipe.category %></p>
+                        <p><strong>Cook Time:</strong> <%= recipe.cook_time %></p>
+                        <p><strong>Servings:</strong> <%= recipe.serving_size %></p>
+                    </div>
+
+                    <h3>Ingredients:</h3>
+
+                    <!-- every new line will be a separate ingredient list item -->
+                    <ul>
+                        <% recipe.ingredients.split("\n").forEach((ingredient) => { %>
+                        <li><%= ingredient %></li>
+                        <% }) %>
+                    </ul>
+
+                    <h3>Steps:</h3>
+
+                    <!-- new lines will become numbered steps -->
+                    <ol>
+                        <% recipe.steps.split("\n").forEach((step) => { %>
+                        <li><%= step %></li>
+                        <% }) %>
+                    </ol>
+
+                    <div class="recipe-buttons">
+                        <form action="/edit" method="POST">
+                            <input type="hidden" name="number" value="<%= number %>" />
+                            <input type="submit" value="Edit" />
+                        </form>
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="number" value="<%= number %>" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </div>
+                </div>
+            <% } 
+        %> <% }) %>
+    </body>
+</html>
